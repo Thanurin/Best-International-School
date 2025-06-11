@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <div class="login-container">
+    <h1>ចូលគណនេយ្យ</h1>
+    <main>
+        <label for="Email">អាស័យដ្ឋាន</label>
+        <input type="email" id="Email" required>
+    </main>
+
+    <main>
+        <label for="Username">ឈ្មោះគណនេយ្យ</label>
+        <input type="text" id="Username" required>
+    </main>
+
+    <main>
+        <label for="password">ពាក្យសម្ងាត់របស់អាស័យដ្ឋានលោកអ្នក</label>
+        <input type="password" id="password" required>
+    </main>
+
+    <button onclick="login()">ចូល</button>
+    <button onclick="skip()">រំលង</button>
+</div>
+
+<script>
+    const users = {}; 
+
+    function skip() {
+        window.location.href = "Home.html";
+    }
+
+    function login() {
+        const email = document.getElementById("Email").value.trim().toLowerCase();
+        const password = document.getElementById("password").value;
+
+        if (users[email] && users[email] === password) {
+            alert("Login successful!");
+            window.location.href = "Home.html";
+        } else {
+            alert("Wrong email or password.");
+        }
+    }
+</script>
+    <script>
+        function redirectToPage() {
+            const correctPassword = ""; // Set your correct password here
+            // Note: In a real application, you should not hard-code passwords like this.  
+            // You can also use a more secure method to store and verify passwords in a real application
+            const enteredPassword = document.getElementById("password").value;
+
+            if (enteredPassword === correctPassword) {
+                window.location.href = "Home.html";
+                return false; // Prevent form submission
+            } else {
+                alert("Wrong password. Please try again.");
+                return false; // Prevent form submission
+            }
+        }
+    </script>
+</div>
+
+
+</body>
+</html>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: lightblue;
+        background-size: 200%;
+        background-image: linear-gradient(to right, lightblue, hotpink);
+        font-family: 'Khmer OS Muol Light', Arial, sans-serif;
+    }
+    h1 {
+        color: pink;
+    }
+    input[type="email"],
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+    .login-container {
+        background-color: hotpink;
+        background-size: 100%;
+        padding: 150px;
+        border-radius: 50px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        transition: transform 0.3s;
+    }
+    .login-container:hover {
+        transform: scale(1.05);
+    }
+    .input-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+    .input-group label {
+        display: block;
+        font-weight: bold;
+        color: pink;
+    }
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+    button {
+        background-color: #ff5722;
+        color: black;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+        font-family: 'Khmer OS Muol Light', Arial, sans-serif;
+        margin-top: 30px;
+    }
+    button:hover {
+        background-color: lightblue;
+    }
+</style>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>បង្វិលឈ្មោះ</title>
+  <style>
+    body {
+      font-family: 'Khmer OS Muol Light', Arial, sans-serif;
+      background: hotpink;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+
+    canvas {
+      border: 8px solid #fff;
+      border-radius: 50%;
+      background: #222;
+    }
+    .pointer {
+  position: absolute;
+  left: 390px;
+  top: 190px;
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 30px solid red;
+  z-index: 10;
+  transform: rotate(-63deg); 
+  transform-origin: center; 
+}
+
+
+
+       button {
+        background-color: #ff5722;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+    button:hover {
+        background-color: lightblue;
+    }
+
+    textarea {
+      margin-top: 30px;
+      width: 300px;
+      height: 150px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    .wheel-container {
+      position: relative;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h2>បង្វិលឈ្មោះបេក្ខជន</h2>
+  <div class="wheel-container">
+    <div class="pointer"></div>
+    <canvas id="wheel" width="400" height="400"></canvas>
+  </div>
+
+  <button id="spinBtn">បង្វិល</button>
+  <div id="result">រួចរាល់ឬនៅ?</div>
+
+  <h3>កែឬដាក់ឈ្មោះនៅខាងក្រោម​: </h3>
+  <textarea id="nameInput">
+Name 1
+Name 2
+Name 3
+Name 4
+Name 5
+Name 6
+Name 7
+Name 8
+Name 9
+Name 10
+Name 11
+Name 12
+Name 13
+Name 14
+Name 15
+Name 16
+Name 17
+Name 18
+Name 19
+Name 20
+Name 21
+Name 22
+Name 23
+Name 24
+Name 25
+Name 26
+Name 27
+Name 28
+Name 29
+Name 30
+Name 31
+Name 32
+Name 33
+Name 34
+Name 35
+Name 36</textarea>
+
+  <script>
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    const spinBtn = document.getElementById("spinBtn");
+    const result = document.getElementById("result");
+    const nameInput = document.getElementById("nameInput");
+
+    let names = [];
+    let startAngle = 0;
+    let isSpinning = false;
+    let angle = 0;
+
+    function drawWheel() {
+      names = nameInput.value.trim().split("\n").filter(Boolean);
+      const numSegments = names.length;
+      const anglePerSegment = (2 * Math.PI) / numSegments;
+
+      ctx.clearRect(0, 0, 400, 400);
+
+      for (let i = 0; i < numSegments; i++) {
+        const angleStart = startAngle + i * anglePerSegment;
+        const angleEnd = angleStart + anglePerSegment;
+
+        // Colorful segments
+        ctx.beginPath();
+        ctx.moveTo(200, 200);
+        ctx.arc(200, 200, 190, angleStart, angleEnd);
+        ctx.fillStyle = `hsl(${(i * 360) / numSegments}, 80%, 60%)`;
+        ctx.fill();
+        ctx.stroke();
+
+        // Text
+        ctx.save();
+        ctx.translate(200, 200);
+        ctx.rotate(angleStart + anglePerSegment / 2);
+        ctx.textAlign = "right";
+        ctx.fillStyle = "#000";
+        ctx.font = "bold 14px sans-serif";
+        ctx.fillText(names[i], 180, 5);
+        ctx.restore();
+      }
+    }
+
+    function spinWheel() {
+      if (isSpinning) return;
+      isSpinning = true;
+      const duration = 10000
+      const spins = Math.floor(Math.random() * 5) + 5;
+      const finalAngle = Math.random() * 2 * Math.PI;
+
+      const totalRotation = spins * 2 * Math.PI + finalAngle;
+      const start = performance.now();
+
+      function animate(now) {
+        const elapsed = now - start;
+        const t = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - t, 3); // ease-out
+        angle = ease * totalRotation;
+
+        startAngle = angle;
+        drawWheel();
+
+        if (t < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          isSpinning = false;
+          const selectedIndex = names.length - Math.floor((finalAngle / (2 * Math.PI)) * names.length) - 1;
+          const winner = names[selectedIndex % names.length];
+          result.textContent = `បានទៅលើបេក្ខជន ${winner}`;
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    spinBtn.addEventListener("click", spinWheel);
+    nameInput.addEventListener("input", drawWheel);
+
+    drawWheel(); // initial draw
+  </script>
+
+</body>
+</html>

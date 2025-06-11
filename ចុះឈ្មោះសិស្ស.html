@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8" />
+    <title>បញ្ចូលទិន្នន័យ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Khmer OS Muol Light', Arial, sans-serif;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4a90e2;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        form {
+            background: #fff;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-family: 'Khmer OS Niroth', Arial, sans-serif;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            font-family: 'Khmer OS Muol Light', Arial, sans-serif;
+        }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Khmer OS Muol Light', Arial, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #357ab8;
+        }
+    </style>
+</head>
+<body>
+
+<h1>ចុះឈ្មោះកូនរបស់លោកអ្នកនៅខាងក្រោម!</h1>
+
+<div>
+    <button type="button" onclick="redirectTopage()">ត្រឡប់ទៅកាន់កេហទំព័រដើម</button>
+</div>
+
+<form id="dataForm">
+    <label for="name">ឈ្មោះសិស្ស:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="sex">ភេទ:</label>
+    <input type="text" id="sex" name="sex" required />
+
+    <label for="birthday">ថ្ងៃខែឆ្នាំកំណើត:</label>
+    <input type="text" id="birthday" name="birthday" required />
+
+    <label for="class">ថ្នាក់រៀន:</label>
+    <input type="text" id="class" name="class" required />
+
+    <label for="address">អាសយដ្ឋាន:</label>
+    <input type="text" id="address" name="address" required />
+    <label for="religion">សាសនា:</label>
+    <input type="text" id="religion" name="religion" required />
+
+    <label for="father_name">ឈ្មោះឳពុក:</label>
+    <input type="text" id="parent_name" name="parent_name" required />
+
+    <label for="mother_name">ឈ្មោះម្តាយ:</label>
+    <input type="text" id="mother_name" name="mother_name" required />
+
+    <label for="father_job">មុខរបររបស់ឳុក:</label>
+    <input type="text" id="father_job" name="father_job" required />
+
+    <label for="mother_job">ការងាររបស់ម្តាយ</label>
+    <input type="text" id="mothr_job" name="mother_job" required>
+
+    <label for="phone">លេខទូរស័ព្ទអាណាព្យាបាល:</label>
+    <input type="tel" id="phone" name="phone" required />
+
+    <label for="message">សារអាណាព្យាបាល:</label>
+    <input type="text" id="message" name="message" required />
+
+    <label for="Photo">បញ្ចូលរូបថត:</label>
+    <img id="previewImage" style="max-width: 50%; margin-top: 10px;" />
+    <input type="file" id="Photo" name="Photo" accept="image/*" onchange="previewFile()" required />
+
+
+    <button type="button" id="screenshotBtn">សូមលោកអ្នកថតចម្លងអេក្រង់ដើម្បីផ្ញើមកកាន់ក្រុមការងាររបស់សាលា</button>
+</form>
+
+<div id="screenshotResult"></div>
+    <h2>
+        សាលារៀនអន្តរជាតិបេស នាំមកនូវគុណភាព ប្រសិទ្ធភាព និងនិន័យចំពោះកូនរបស់លោកអ្នក!
+    </h2>
+<script>
+    function redirectTopage() {
+        window.location.href = "Home.html";
+    }
+
+    document.getElementById("screenshotBtn").addEventListener("click", function () {
+        html2canvas(document.getElementById("dataForm")).then(function (canvas) {
+            document.getElementById("screenshotResult").innerHTML = "";
+            document.getElementById("screenshotResult").appendChild(canvas);
+
+            const link = document.createElement('a');
+            link.download = 'form_screenshot.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    });
+        document.getElementById("Photo").addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("previewImage").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+</body>
+</html>
